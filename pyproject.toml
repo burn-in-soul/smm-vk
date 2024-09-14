@@ -5,10 +5,19 @@ description = ""
 authors = ["burn_in_soul <burn-in-soul@uandex.ru>"]
 readme = "README.md"
 
+[tool.poetry.scripts]
+smmvk = 'smm_vk.cli.main:main'
+
 [tool.poetry.dependencies]
 python = "^3.11"
 pydantic = "^2.9.1"
 httpx = "^0.27.2"
+vk-api = "^11.9.9"
+aiovk = "^4.1.0"
+aiofiles = "^24.1.0"
+pydantic-settings = "^2.5.2"
+anyio = "^4.4.0"
+asyncclick = "^8.1.7.2"
 
 
 [build-system]
@@ -36,6 +45,7 @@ filelock = "3.14.0"
 distlib = "0.3.8"
 pytest-xdist = "^3.6.1"
 pinned-import-linter = "^1.1.0"
+types-aiofiles = "^24.1.0.20240626"
 
 [tool.mypy]
 python_version = "3.11"
