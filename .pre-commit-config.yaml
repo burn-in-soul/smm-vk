@@ -1,0 +1,64 @@
+default_stages:
+  - commit
+
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black -l 120 -t py311 .
+        language: system
+        types: [ python ]
+        pass_filenames: false
+      - id: autoflake
+        name: autoflake
+        entry: autoflake
+        language: system
+        types: [ python ]
+        args: [ --in-place, --remove-all-unused-imports, --remove-duplicate-keys ]
+      - id: flakes
+        name: flakes
+        entry: flake8 --config tox.ini .
+        language: system
+        pass_filenames: false
+        stages:
+          - commit
+          - push
+      - id: mypy
+        name: mypy
+        entry: mypy --config pyproject.toml .
+        pass_filenames: false
+        language: system
+        types: [ python ]
+      - id: lint-pinned-imports
+        name: Restricted imports
+        entry: lint-pinned-imports --config pyproject.toml
+        language: system
+        types: [ python ]
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-blanket-noqa
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-docstring-first
+        stages:
+          - commit
+          - push
+      - id: check-merge-conflict
+        stages:
+          - push
+      - id: trailing-whitespace
+        stages:
+          - commit
+          - push
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: \.svg$
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.8.3
+    hooks:
+      - id: poetry-check
+        stages:
+          - commit
